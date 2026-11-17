@@ -5,7 +5,10 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from snac import SNAC
 path, shard, nsh, takes, out = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]), sys.argv[5]
 os.makedirs(out, exist_ok=True); torch.set_num_threads(os.cpu_count() or 4)
-lines = json.load(open(path))[shard::nsh]
+allines = json.load(open(path)); buckets = [[] for _ in range(nsh)]; load = [0] * nsh
+for l in sorted(allines, key=lambda x: -len(x["text"])):  # balance shards by text length (longest first)
+    i = load.index(min(load)); buckets[i].append(l); load[i] += len(l["text"]) + 40
+lines = buckets[shard]
 if not lines: print("nothing for this shard"); sys.exit(0)
 t0 = time.time()
 RID = "maya-research/Veena"
