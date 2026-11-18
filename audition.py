@@ -51,11 +51,14 @@ elif eng == "hima":
             a = tts.say(txt, voice=v, seed=21); save(a, 24000, f"hima_{v}_{tag}")
         print("done", v, round(time.time() - t0), flush=True)
 elif eng == "cbx":
-    pip("huggingface_hub")
-    from huggingface_hub import snapshot_download
-    snapshot_download("ResembleAI/Chatterbox-Multilingual-TTS-hi", repo_type="space", local_dir="cbx")
-    reqs = [l.strip() for l in open("cbx/requirements.txt") if l.strip() and not l.strip().startswith(("gradio", "spaces", "#", "--", "torch", "torchaudio"))]
-    pip(*reqs); pip("soundfile"); sys.path.insert(0, os.path.abspath("cbx"))
+    if "--go" not in sys.argv:
+        pip("huggingface_hub")
+        from huggingface_hub import snapshot_download
+        snapshot_download("ResembleAI/Chatterbox-Multilingual-TTS-hi", repo_type="space", local_dir="cbx")
+        reqs = [l.strip() for l in open("cbx/requirements.txt") if l.strip() and not l.strip().startswith(("gradio", "spaces", "#", "--", "torch", "torchaudio"))]
+        pip(*reqs); pip("soundfile")
+        os.execv(sys.executable, [sys.executable, os.path.abspath(__file__), item, out, "--go"])
+    sys.path.insert(0, os.path.abspath("cbx"))
     import torch, urllib.request
     from chatterbox.src.chatterbox.tts import ChatterboxTTS
     m = ChatterboxTTS.from_pretrained("cpu")
