@@ -1,0 +1,56 @@
+name: voice-audition
+on:
+  workflow_dispatch:
+    inputs:
+      items:
+        description: "comma-separated engine:voice list"
+        required: true
+        default: "parler:Rohit,parler:Aman,parler:Divya,parler:Rani,veena:agastya,veena:vinaya,veena:kavya,veena:maitri,hima:all,cbx:hi_f1,cbx:agastya,cbx:kavya"
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      items: ${{ steps.m.outputs.items }}
+    steps:
+      - id: m
+        run: echo "items=$(python3 -c "import json;print(json.dumps([x.strip() for x in '${{ inputs.items }}'.split(',') if x.strip()]))")" >> "$GITHUB_OUTPUT"
+  voice:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        item: ${{ fromJson(needs.plan.outputs.items) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install base
+        run: |
+          sudo apt-get -qq update && sudo apt-get -qq install -y ffmpeg
+          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install -q soundfile huggingface_hub
+      - name: Speak
+        run: python audition.py "${{ matrix.item }}" out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aud-${{ strategy.job-index }}
+          path: out/
+          if-no-files-found: ignore
+  merge:
+    needs: voice
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: aud-*
+          path: m
+          merge-multiple: true
+      - run: ls m
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audition_voices
+          path: m/
