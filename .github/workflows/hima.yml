@@ -22,7 +22,7 @@ jobs:
   voice:
     needs: plan
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
@@ -32,16 +32,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Free disk
-        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
       - uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface
           key: hf-hima-v1
       - name: Install
         run: |
-          sudo apt-get -qq update && sudo apt-get -qq install -y ffmpeg
-          pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          which ffmpeg || { pip install -q imageio-ffmpeg && sudo ln -sf "$(python -c 'import imageio_ffmpeg as f;print(f.get_ffmpeg_exe())')" /usr/local/bin/ffmpeg; }
+          ffmpeg -version | head -1
+          pip install -q torch --index-url https://download.pytorch.org/whl/cpu
           pip install -q huggingface_hub soundfile
           python -c "from huggingface_hub import snapshot_download as s; s('Prahaladha/hima-tts-nano-hi', local_dir='hima')"
           pip install -q -r hima/requirements.txt
