@@ -15,8 +15,8 @@ if eng == "parler":
     import torch
     from parler_tts import ParlerTTSForConditionalGeneration
     from transformers import AutoTokenizer
-    m = ParlerTTSForConditionalGeneration.from_pretrained("ai4bharat/indic-parler-tts").eval()
-    tok = AutoTokenizer.from_pretrained("ai4bharat/indic-parler-tts"); dtok = AutoTokenizer.from_pretrained(m.config.text_encoder._name_or_path)
+    m = ParlerTTSForConditionalGeneration.from_pretrained("RXD03/indic-parler-tts").eval()
+    tok = AutoTokenizer.from_pretrained("RXD03/indic-parler-tts"); dtok = AutoTokenizer.from_pretrained(m.config.text_encoder._name_or_path)
     desc = f"{voice} speaks in a warm, expressive storytelling voice at a moderate pace with a slightly low pitch. The recording is of very high quality, with the speaker's voice sounding clear and very close up, and very clear audio with no background noise."
     for tag, txt in P.items():
         torch.manual_seed(21); d = dtok(desc, return_tensors="pt"); p = tok(txt, return_tensors="pt")
