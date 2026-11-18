@@ -11,7 +11,7 @@ def save(a, sr, name):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", w, "-b:a", "128k", f"{out}/{name}.mp3"], check=True); os.remove(w)
 t0 = time.time()
 if eng == "parler":
-    pip("git+https://github.com/huggingface/parler-tts.git", "soundfile")
+    pip("git+https://github.com/huggingface/parler-tts.git", "soundfile"); pip("-U", "protobuf>=5.28")
     import torch
     from parler_tts import ParlerTTSForConditionalGeneration
     from transformers import AutoTokenizer
