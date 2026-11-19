@@ -41,7 +41,7 @@ jobs:
           which ffmpeg || { pip install -q imageio-ffmpeg && sudo ln -sf "$(python -c 'import imageio_ffmpeg as f;print(f.get_ffmpeg_exe())')" /usr/local/bin/ffmpeg; }
           pip install -q torch torchaudio --index-url https://download.pytorch.org/whl/cpu
           pip install -q git+https://github.com/ai4bharat/IndicF5.git
-          pip install -q "transformers==4.50.0" soundfile pydub safetensors
+          pip install -q "transformers==4.50.0" "datasets==3.2.0" "huggingface_hub==0.30.2" soundfile pydub safetensors
       - name: Voice
         run: python f5_cpu.py jobs/${{ inputs.job }}/lines.json ${{ matrix.shard }} ${{ inputs.shards }} ${{ inputs.takes }} out
       - uses: actions/upload-artifact@v4
