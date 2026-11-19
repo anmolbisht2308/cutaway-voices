@@ -1,0 +1,56 @@
+[
+ {
+  "id": "IN17_R01",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "Say hello to Voyager 1 today. It hears you tomorrow."
+ },
+ {
+  "id": "IN17_R02",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "This week, it became the first spacecraft ever, a full light-day from Earth."
+ },
+ {
+  "id": "IN17_R03",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "Light covers almost three hundred thousand kilometres every second."
+ },
+ {
+  "id": "IN17_R04",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "It reaches the Moon in about one second, and Neptune in four hours."
+ },
+ {
+  "id": "IN17_R05",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "To reach Voyager? Another twenty hours. A whole day."
+ },
+ {
+  "id": "IN17_R06",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "That's about twenty-six billion kilometres. Launched in nineteen seventy-seven, still flying."
+ },
+ {
+  "id": "IN17_R07",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "Send it a command today, and its reply reaches us two days later."
+ },
+ {
+  "id": "IN17_R08",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "And on board, a golden record with sounds and pictures of Earth, for anyone who finds it."
+ },
+ {
+  "id": "IN17_R09",
+  "voice": "Ishaan",
+  "pitch": 0,
+  "text": "Would you put your voice on that record? Comment yes or no."
+ }
+]
